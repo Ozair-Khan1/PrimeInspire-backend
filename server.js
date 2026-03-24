@@ -5,7 +5,7 @@ const connectDB = require('./DB/db')
 
 dotEnv.config()
 connectDB()
-const PORT = process.env.PORT_NUM|| 5000;
+const PORT = process.env.PORT_NUM;
 if (process.env.NODE_ENV !== 'production') {
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 }

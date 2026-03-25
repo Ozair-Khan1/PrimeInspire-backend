@@ -42,7 +42,12 @@ const register = async (req, res) => {
         id: user._id
     }, process.env.JWT_KEY)
 
-    res.cookie('emailToken', emailToken)
+    res.cookie('emailToken', emailToken, {
+        httpOnly: true,
+        secure: true, 
+        sameSite: 'none',
+        maxAge: 7 * 24 * 60 * 60 * 1000
+    })
 
     res.status(201).json({
         message: 'User created',
@@ -160,13 +165,22 @@ const verify = async (req, res) => {
 
         await otpModel.deleteMany()
 
-        res.clearCookie('emailToken')
+        res.clearCookie('emailToken', {
+            httpOnly: true,
+            secure: true,     
+            sameSite: 'none',  
+        })
 
         const session =  jwt.sign({
             id: updateUser._id
         }, process.env.JWT_KEY)
 
-        res.cookie('session', session)
+        res.cookie('session', session, {
+            httpOnly: true,
+            secure: true, 
+            sameSite: 'none',
+            maxAge: 7 * 24 * 60 * 60 * 1000
+        })
 
         res.status(200).json({ success: true, message: 'Account verified!', id: updateUser._id});
 

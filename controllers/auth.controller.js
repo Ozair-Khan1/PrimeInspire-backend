@@ -65,6 +65,19 @@ const login = async (req, res) => {
         })
     }
 
+    const otp = otpBody.generateOtp()
+    const html = otpBody.getOtpHtml(otp)
+
+    const otpHash = await bcrypt.hash(otp, 10)
+
+    await otpModel.create({
+        email,
+        user: emailExist._id,
+        otpHash
+    })
+
+    await sendEmail(email, "OTP Verification", `Your OTP code is ${otp}`, html)
+
     const emailToken = jwt.sign({
         id: emailExist._id
     }, process.env.JWT_KEY)

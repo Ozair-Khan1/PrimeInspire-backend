@@ -13,6 +13,8 @@ app.use(cors({
     credentials: true
 }))
 
+app.options('*', cors());
+
 app.use('/api/auth', router)
 
 module.exports = app

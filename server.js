@@ -1,9 +1,8 @@
-const express = require('express');
-const app = express();
 const dotEnv = require('dotenv')
+dotEnv.config()
+const app = require('./app')
 const connectDB = require('./DB/db')
 
-dotEnv.config()
 connectDB()
 const PORT = process.env.PORT_NUM;
 if (process.env.NODE_ENV !== 'production') {
